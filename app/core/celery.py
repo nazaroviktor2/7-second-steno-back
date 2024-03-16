@@ -22,7 +22,7 @@ global summarizer_model
 
 @worker_process_init.connect
 def init_worker(**kwargs):
-    global diarize_model, model
+    global diarize_model, model, summarizer_model
     HF_TOKEN = 'your_hf_token'
     device = "cuda"
     COMPUTE_TYPE = "float16"
