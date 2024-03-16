@@ -1,0 +1,29 @@
+version: '3.8'
+
+
+services:
+
+  opensearch:
+    image: opensearchproject/opensearch:2.11.1
+    environment:
+      discovery.type: single-node
+      node.name: opensearch01
+      plugins.security.disabled: "true"
+      bootstrap.memory_lock: "true" # along with the memlock settings below, disables swapping
+      OPENSEARCH_JAVA_OPTS: -Xms2g -Xmx2g
+    ports:
+      - "9200:9200"
+      - "9600:9600" # required for Performance Analyzer
+    volumes:
+      - opensearch-data:/usr/share/opensearch/data
+    mem_limit: 4g
+    healthcheck:
+      test: curl -s http://localhost:9200 >/dev/null || exit 1
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+
+volumes:
+  opensearch-data:
+  rmq-data:
