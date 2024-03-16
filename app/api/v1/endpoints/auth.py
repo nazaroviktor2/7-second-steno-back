@@ -14,13 +14,12 @@ ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
 fake_users_db = {
-    "johndoe": {
+    "johndoe@example.com": {
         "username": "johndoe",
         "id": "783b6474-7d99-4bef-ae5c-02b5e9ad2485",
         "full_name": "John Doe",
         "email": "johndoe@example.com",
         "hashed_password": "$2b$12$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW",
-        "disabled": False,
     }
 }
 
@@ -31,14 +30,11 @@ class Token(BaseModel):
 
 
 class TokenData(BaseModel):
-    username: str | None = None
+    email: str | None = None
 
 
 class User(BaseModel):
-    username: str
-    email: str | None = None
-    full_name: str | None = None
-    disabled: bool | None = None
+    email: str
     id: str
 
 
@@ -61,14 +57,14 @@ def get_password_hash(password):
     return pwd_context.hash(password)
 
 
-def get_user(db, username: str):
-    if username in db:
-        user_dict = db[username]
+def get_user(db, email: str):
+    if email in db:
+        user_dict = db[email]
         return UserInDB(**user_dict)
 
 
-def authenticate_user(fake_db, username: str, password: str):
-    user = get_user(fake_db, username)
+def authenticate_user(fake_db, email: str, password: str):
+    user = get_user(fake_db, email)
     if not user:
         return False
     if not verify_password(password, user.hashed_password):
@@ -95,13 +91,13 @@ async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]):
     )
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-        username: str = payload.get("sub")
-        if username is None:
+        email: str = payload.get("sub")
+        if email is None:
             raise credentials_exception
-        token_data = TokenData(username=username)
+        token_data = TokenData(email=email)
     except JWTError:
         raise credentials_exception
-    user = get_user(fake_users_db, username=token_data.username)
+    user = get_user(fake_users_db, email=token_data.email)
     if user is None:
         raise credentials_exception
     return user
@@ -110,8 +106,6 @@ async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]):
 async def get_current_active_user(
     current_user: Annotated[User, Depends(get_current_user)]
 ) -> User:
-    if current_user.disabled:
-        raise HTTPException(status_code=400, detail="Inactive user")
     return current_user
 
 
@@ -128,7 +122,7 @@ async def login_for_access_token(
         )
     access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     access_token = create_access_token(
-        data={"sub": user.username}, expires_delta=access_token_expires
+        data={"sub": user.email}, expires_delta=access_token_expires
     )
     return Token(access_token=access_token, token_type="bearer")
 

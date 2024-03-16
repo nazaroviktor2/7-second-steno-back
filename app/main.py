@@ -1,6 +1,7 @@
 from contextlib import AbstractAsyncContextManager, asynccontextmanager
 
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from loguru import logger
 
 from app.api.v1 import api as api_v1
@@ -20,8 +21,14 @@ async def lifespan(app: FastAPI) -> AbstractAsyncContextManager:
     yield
 
 
-def _init_middlewares(app_: FastAPI) -> None:
-    pass
+def _init_middlewares(app: FastAPI) -> None:
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=["*"],
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
 
 
 def create_app() -> FastAPI:
