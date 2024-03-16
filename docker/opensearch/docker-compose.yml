@@ -15,11 +15,10 @@ services:
       - "9600:9600" # required for Performance Analyzer
     volumes:
       - opensearch-data:/usr/share/opensearch/data
-    deploy:
-      resources:
-        limits:
-          memory: 4g
-
+    ulimits:
+          memlock:
+            soft: 4294967296  # 4GB in bytes
+            hard: 4294967296  # 4GB in bytes
     healthcheck:
       test: curl -s http://localhost:9200 >/dev/null || exit 1
       interval: 10s
