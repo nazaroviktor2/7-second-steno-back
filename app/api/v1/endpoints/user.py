@@ -8,6 +8,6 @@ router = APIRouter()
 
 
 @router.get("/orders")
-def get_user_orders(payload: UserOrdersIn = Depends(), user=Depends(get_current_user)) -> UserOrdersOut:
+async def get_user_orders(payload: UserOrdersIn = Depends(), user=Depends(get_current_user)) -> UserOrdersOut:
 
     return UserOrdersOut(user_id=user.id, orders=[BaseOrder(order_id="783b6474-7d99-4bef-ae5c-02b5e9ad2485")])

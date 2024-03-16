@@ -7,6 +7,7 @@ from pydantic import BaseModel, Field
 
 
 class UploadFileIn(BaseModel):
+    name: str = Field(description="Название встречи")
     file: UploadFile = Field(description="Файл для обработки")
     priority: bool = False
 
