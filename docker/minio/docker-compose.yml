@@ -1,0 +1,21 @@
+version: '3.3'
+services:
+  minio:
+    image: minio/minio
+    command: server --console-address ":9001" /data/
+    environment:
+      MINIO_ROOT_USER: MINIO_LOGIN
+      MINIO_ROOT_PASSWORD: MINIO_PASS
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    networks:
+      - s7-back-network
+
+
+networks:
+  s7-back-network:
+    external: true
+
+volumes:
+  minio-storage:
