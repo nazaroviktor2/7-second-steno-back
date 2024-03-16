@@ -3,15 +3,15 @@ import io
 from loguru import logger
 from minio import Minio, S3Error
 
-from app.core.config import config
+
 
 
 class MinioLoader:
     def __init__(self, minio_bucket: str):
         self.client = Minio(
-            config.MINIO_ENDPOINT,
-            access_key=config.MINIO_LOGIN,
-            secret_key=config.MINIO_PASS,
+            "158.160.86.107:9000",
+            access_key="MINIO_LOGIN",
+            secret_key="MINIO_PASS",
             secure=False,
         )
         self.minio_bucket = minio_bucket
@@ -86,7 +86,7 @@ class MinioLoader:
             return save_path
 
 
-minio_loader = MinioLoader(minio_bucket=config.MINIO_BUCKET)
+minio_loader = MinioLoader(minio_bucket="s7-files")
 
 
 minio_loader.load_file("0d77b5c5-e0f0-458e-a88f-4080f5dc2772/Женя TextSumm (1).mp4", save_path="1.mp4")
