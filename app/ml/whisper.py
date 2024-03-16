@@ -102,7 +102,6 @@ def convert_whisper_result_to_text(result):
     formatted_time_string = format_time_string(time_string)
     # добавляем время, спикера и текст
     result_text += f"{formatted_time_string} {elem['speaker']}\n{current_user_text_speech}"
-    print(result_text)
     return result_text
 
 
