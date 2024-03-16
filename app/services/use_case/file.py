@@ -11,6 +11,7 @@ from loguru import logger
 
 from app.core.minio import minio_loader
 from app.schemas.file_schemas import UploadFileIn
+from app.worker.tasks import file_get_text_task
 # from app.services.use_case.file_loader import start_processing
 
 PATH = "{order_id}/{filename}"
@@ -25,7 +26,7 @@ async def service_file_upload(payload: UploadFileIn) -> str:
     path = PATH.format(order_id=order_id, filename=payload.file.filename)
     minio_loader.save_file_from_bytes(path, payload.file.file.read(), payload.file.size)
 
-    save_task = file_read_task.si(file_data)
+    save_task = file_get_text_task.si(order_id)
 
     # start_processing(file)
     return order_id

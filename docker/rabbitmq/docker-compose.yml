@@ -1,0 +1,36 @@
+version: '3'
+services:
+
+  rabbit:
+    image: "rabbitmq:3.8.14-management"
+    environment:
+      - RABBITMQ_DEFAULT_USER=rabbitmq
+      - RABBITMQ_DEFAULT_PASS=rabbitmq
+    ports:
+      - "5675:5672"
+      - "15675:15672"  # here, we can access rabbitmq management plugin
+    networks:
+      - s7-back-network
+
+  postgres:
+    image: postgres:11-alpine
+    environment:
+      POSTGRES_DB: mydb
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword
+    ports:
+      - "5433:5432"
+    networks:
+      - s7-back-network
+    volumes:
+      - postgres-storage:/var/lib/postgresql/data
+
+
+
+
+networks:
+  s7-back-network:
+    external: true
+
+volumes:
+  postgres-storage:
