@@ -4,6 +4,8 @@ from celery.utils.log import LoggingProxy
 import whisperx
 
 from app.core.config import config
+from transformers import pipeline
+
 
 app_celery = Celery(
     "worker",
@@ -16,7 +18,7 @@ setattr(LoggingProxy, "encoding", "UTF-8")
 
 global diarize_model
 global model
-
+global summarizer_model
 
 @worker_process_init.connect
 def init_worker(**kwargs):
@@ -35,4 +37,13 @@ def init_worker(**kwargs):
         compute_type=COMPUTE_TYPE,
         language='ru'
     )
+
+    # Суммаризация для всего текста
+    summarizer_model = pipeline(
+        "summarization",
+        model="basic-go/FRED-T5-large-habr-summarizer",
+        device=device
+    )
+
     print("Model and other resources initialized.")
+

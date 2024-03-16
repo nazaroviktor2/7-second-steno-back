@@ -3,6 +3,7 @@ from tempfile import NamedTemporaryFile
 from loguru import logger
 
 from app.core.minio import minio_loader
+from app.ml.summarization import run_summarize_text
 from app.ml.whisper import whisper_model_pipeline, convert_whisper_result_to_text
 
 
@@ -13,6 +14,11 @@ async def file_get_text(order_id: str) -> None:
         minio_loader.load_file(save_path=tempt_file.name, file_path=f"0d77b5c5-e0f0-458e-a88f-4080f5dc2772/Женя TextSumm (1).mp4")
         whisper_result = whisper_model_pipeline(tempt_file.name, file_format='mp4')
         text_result = convert_whisper_result_to_text(whisper_result)
+
+    all_summarize = run_summarize_text(text_result, max_new_tokens=80)
+    preview = run_summarize_text(all_summarize, max_new_tokens=20)
+    logger.info(f"PREVIEW ={preview}")
+    logger.info(f"all_summarize ={all_summarize}")
     logger.info(text_result)
     # await file.add_to_index(text)
     # await file_metadata_set_status(file.meta_id, FileStatus.SUCCESS)

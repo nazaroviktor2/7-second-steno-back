@@ -19,7 +19,7 @@ class BaseOrder(BaseModel):
     name: str = Field(description="название", default="название 1")
     persons: list[str] = Field(description="Имена из разговора", default=["Ваня В", "Кирилл", "Дмитрий"])
     summary: list[str] = Field(description="", default="какой текст")
-    text: str = Field(description="Текст",default="Какой то текст")
+    text: str = Field(description="Текст", default="Какой то текст")
 
 
 # class MetaFileGetOut(MetaFileDTO):
