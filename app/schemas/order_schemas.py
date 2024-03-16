@@ -15,8 +15,11 @@ class OrderStatus(Enum):
 class BaseOrder(BaseModel):
     order_id: str = Field(description="id заказа")
     status: OrderStatus = Field(description="статут заказа", default=OrderStatus.in_queue)
-    short_description: str = Field(description="краткое описание", default="краткое описание")
+    preview: str = Field(description="краткое описание", default="краткое описание")
     name: str = Field(description="название", default="название 1")
+    persons: list[str] = Field(description="Имена из разговора", default=["Ваня В", "Кирилл", "Дмитрий"])
+    summary: list[str] = Field(description="", default="какой текст")
+    text: str = Field(description="Текст",default="Какой то текст")
 
 
 # class MetaFileGetOut(MetaFileDTO):

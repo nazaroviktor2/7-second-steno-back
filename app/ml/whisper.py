@@ -90,21 +90,20 @@ def convert_whisper_result_to_text(result):
             current_user_text_speech += elem['text'] + ' '
         else:
             # Конвертим время
-            time_string = f"{speaker_start_time}-{elem['end']}"
+            time_string = f"{speaker_start_time}-{elem['start']}"
             formatted_time_string = format_time_string(time_string)
             # добавляем время, спикера и текст
-            result_text += f"{formatted_time_string} {elem['speaker']}\n{current_user_text_speech}\n"
+            result_text += f"{formatted_time_string} {last_speaker}\n{current_user_text_speech}\n"
             current_user_text_speech = elem['text'] + ' '
             speaker_start_time = elem['start']
             last_speaker = elem['speaker']
     # Конвертим время
+    current_user_text_speech = current_user_text_speech[:-1]
     time_string = f"{speaker_start_time}-{elem['end']}"
     formatted_time_string = format_time_string(time_string)
     # добавляем время, спикера и текст
     result_text += f"{formatted_time_string} {elem['speaker']}\n{current_user_text_speech}"
     return result_text
-
-
 
 #############################################################
 ###Сохранение docx
