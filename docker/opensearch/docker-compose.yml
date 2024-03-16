@@ -1,8 +1,7 @@
-version: '3.8'
+version: '3.3'
 
 
 services:
-
   opensearch:
     image: opensearchproject/opensearch:2.11.1
     environment:
@@ -16,7 +15,11 @@ services:
       - "9600:9600" # required for Performance Analyzer
     volumes:
       - opensearch-data:/usr/share/opensearch/data
-    mem_limit: 4g
+    deploy:
+      resources:
+        limits:
+          memory: 4g
+
     healthcheck:
       test: curl -s http://localhost:9200 >/dev/null || exit 1
       interval: 10s
