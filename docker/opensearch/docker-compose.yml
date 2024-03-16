@@ -24,8 +24,14 @@ services:
       interval: 10s
       timeout: 5s
       retries: 10
+    networks:
+      - s7-back-network
 
 
 volumes:
   opensearch-data:
-  rmq-data:
+
+
+networks:
+  s7-back-network:
+    external: true
