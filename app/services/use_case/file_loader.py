@@ -32,7 +32,6 @@ async def file_get_text(order_id: str, file_path: str) -> None:
     order = await get_order_by_id(order_id)
 
     add_doc_to_index(
-        search_client,
         text=text_result,
         preview=preview,
         summary=summary,

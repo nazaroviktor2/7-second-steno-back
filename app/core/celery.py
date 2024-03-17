@@ -20,11 +20,10 @@ setattr(LoggingProxy, "encoding", "UTF-8")
 global diarize_model
 global model
 global summarizer_model
-global search_client
 
 @worker_process_init.connect
 def init_worker(**kwargs):
-    global diarize_model, model, summarizer_model, search_client
+    global diarize_model, model, summarizer_model
     HF_TOKEN = config.HF_TOKEN
     device = "cuda"
     COMPUTE_TYPE = "float16"
@@ -49,11 +48,3 @@ def init_worker(**kwargs):
 
     print("Model and other resources initialized.")
 
-    search_client = OpenSearch(
-        hosts=[config.SEARCH_ENGINE_HOST],
-        http_compress=True,  # enables gzip compression for request bodies
-        use_ssl=False,
-        verify_certs=False,
-        ssl_assert_hostname=False,
-        ssl_show_warn=False
-    )
