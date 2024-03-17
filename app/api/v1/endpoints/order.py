@@ -32,6 +32,7 @@ async def get_order(order_id: str, user=Depends(get_current_user)):
     status_code=status.HTTP_200_OK,
     response_model=OrderWithText,
 )
+@handle_domain_error
 async def get_order(order_id: str, user=Depends(get_current_user)):
     order = await get_order_by_id(order_id)
     if order.status != OrderStatus.done:
