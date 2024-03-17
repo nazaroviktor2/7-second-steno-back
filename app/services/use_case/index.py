@@ -5,7 +5,8 @@ def add_doc_to_index(client, text: str, summary: dict[str, str], preview: str, n
         'preview': preview,
         'name': name,
         "persons": persons,
-        "id": order_id
+        "id": order_id,
+        "file_path": file_path
     }
 
     response = client.index(

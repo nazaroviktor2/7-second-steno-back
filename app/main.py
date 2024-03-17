@@ -6,6 +6,7 @@ from loguru import logger
 
 from app.api.v1 import api as api_v1
 from app.core.config import config
+from app.db.database import engine, Base
 
 logger.add(
     "./logs/s7.log",
@@ -17,6 +18,8 @@ logger.add(
 @asynccontextmanager
 async def lifespan(app: FastAPI) -> AbstractAsyncContextManager:
     """Логика запуска и завершения приложения."""
+    async with engine.begin() as conn:
+        await conn.run_sync(Base.metadata.create_all)
 
     yield
 

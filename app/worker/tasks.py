@@ -8,12 +8,12 @@ from app.services.exceptions import DomainError
 
 
 @app_celery.task(bind=True)
-def file_get_text_task(self: Task, order_id: str) -> None:
+def file_get_text_task(self: Task, order_id: str, file_path: str) -> None:
     """Задача чтения файла"""
     from app.services.use_case.file_loader import file_get_text
 
     try:
-        run_task_in_event_loop(file_get_text(order_id))
+        run_task_in_event_loop(file_get_text(order_id, file_path))
     except DomainError as error:
         logger.error(f"Error with task {self.request.id}: {error}")
         raise
