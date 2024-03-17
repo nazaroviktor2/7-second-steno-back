@@ -18,7 +18,7 @@ def get_order(order_id: str, user=Depends(get_current_user)):
 @router.get(
     "/{order_id}/text",
     status_code=status.HTTP_200_OK,
-    response_model=BaseOrder,
+    response_model=OrderWithText,
 )
 def get_order(order_id: str, user=Depends(get_current_user)):
     return OrderWithText(order_id=order_id)

@@ -24,10 +24,10 @@ async def file_get_text(order_id: str, file_path: str) -> None:
     # logger.info(f"PREVIEW ={preview}")
     # logger.info(f"all_summarize ={all_summarize}")
     # logger.info(text_result)
-    summary = {
-        "SPEAKER_01": summarize_person_text(text_result, speaker_name='SPEAKER_01'),
-        "All": all_summarize
-    }
+    summary = [
+        {'name': "SPEAKER_01", "text": summarize_person_text(text_result, speaker_name='SPEAKER_01')},
+        {"name": "All", "text": all_summarize}
+    ]
     await order_add_preview(order_id, preview)
     order = await get_order_by_id(order_id)
 

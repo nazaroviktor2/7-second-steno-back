@@ -70,8 +70,17 @@ settings = {"settings": {
                     }
                 }},
             "summary": {
-                "type": "text",
-                "analyzer": "text_analyzer"
+                "type": "nested",
+                "properties": {
+                    "name": {
+                        "type": "keyword"
+                    },
+                    "text": {
+                        "type": "text",
+                        "analyzer": "text_analyzer"
+                        }
+                    }
+
             },
             "preview": {
                 "type": "text",
