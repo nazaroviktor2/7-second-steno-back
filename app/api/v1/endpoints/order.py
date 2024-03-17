@@ -15,7 +15,7 @@ router = APIRouter()
     response_model=BaseOrder,
 )
 async def get_order(order_id: str, user=Depends(get_current_user)):
-    order = get_order_by_id(order_id)
+    order = await get_order_by_id(order_id)
     return BaseOrder.model_validate(order, from_attributes=True)
 
 
