@@ -73,7 +73,6 @@ async def order_add_preview(order_id: str, preview: str) -> UUID:
     return order.id
 
 
-
 async def order_set_status(order_id: str, status: OrderStatus) -> UUID:
     """Создает новый заказ в базе данных.
 
@@ -93,3 +92,9 @@ async def order_set_status(order_id: str, status: OrderStatus) -> UUID:
         await session.commit()
     return order.id
 
+
+async def get_all_user_orders(user_id: str=None, skip: int =0, limit: int=20):
+    async with async_session_factory() as session:
+        query = await session.scalars(select(Order).offset(skip).limit(limit))
+
+    return query.all()
