@@ -2,7 +2,6 @@ from tempfile import NamedTemporaryFile
 
 from loguru import logger
 
-from app.core.celery import search_client
 from app.core.minio import minio_loader
 from app.db.db_crud import get_order_by_id, order_set_status, order_add_preview
 from app.db.models import OrderStatus
