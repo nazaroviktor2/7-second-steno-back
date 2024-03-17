@@ -19,7 +19,7 @@ router = APIRouter()
 async def get_order(order_id: str, user=Depends(get_current_user)):
     order = await get_order_by_id(order_id)
     return BaseOrder(
-        order_id=order.id,
+        order_id=str(order.id),
         status=order.status,
         preview=order.preview,
         name=order.name
@@ -49,7 +49,7 @@ async def get_order(order_id: str, user=Depends(get_current_user)):
             highlights = highlights['content']
 
     return OrderWithText(
-        order_id=order_id,
+        order_id=str(order_id),
         name=order.name,
         preview=order.preview,
         status=order.status,
