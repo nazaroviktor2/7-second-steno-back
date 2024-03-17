@@ -46,6 +46,6 @@ async def get_user_orders(payload: MSGIn = Depends(), user=Depends(get_current_u
         return "\n".join(res)
 
     elif payload.message == "Кто присутствовал на встрече?":
-        return "\n".join(highlights)
+        return "\n".join(persons)
 
     return "Я не знаю такую команду"
