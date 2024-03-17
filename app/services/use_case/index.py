@@ -75,7 +75,7 @@ def get_file_by_id(order_id: str):
             "pre_tags": ["<em>"],
             "post_tags": ["</em>"]
         },
-        "_source": False,
+        "_source": True,
         "size": 1
     }
 
