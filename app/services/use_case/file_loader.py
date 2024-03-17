@@ -2,9 +2,11 @@ from tempfile import NamedTemporaryFile
 
 from loguru import logger
 
+from app.core.celery import search_client
 from app.core.minio import minio_loader
-from app.ml.summarization import run_summarize_text
+from app.ml.summarization import run_summarize_text, summarize_person_text
 from app.ml.whisper import whisper_model_pipeline, convert_whisper_result_to_text
+from app.services.use_case.index import add_doc_to_index
 
 
 async def file_get_text(order_id: str) -> None:
@@ -20,6 +22,22 @@ async def file_get_text(order_id: str) -> None:
     logger.info(f"PREVIEW ={preview}")
     logger.info(f"all_summarize ={all_summarize}")
     logger.info(text_result)
+    summary = {
+        "SPEAKER_01": summarize_person_text(text_result, speaker_name='SPEAKER_01'),
+        "All": all_summarize
+    }
+
+    add_doc_to_index(
+        search_client,
+        text=text_result,
+        preview=preview,
+        summary=summary,
+        persons=["Максим", "Кирилл"],
+        order_id=order_id,
+        name="Название",
+        file_path="Путь до файла в мин ио"
+    )
+
     # await file.add_to_index(text)
     # await file_metadata_set_status(file.meta_id, FileStatus.SUCCESS)
 

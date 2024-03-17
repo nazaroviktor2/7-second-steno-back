@@ -3,9 +3,6 @@ import whisperx
 
 from app.core.celery import model, diarize_model
 
-HF_TOKEN = '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'
-filename = './Женя TextSumm.mp4'
-
 
 device = "cuda" 
 BATCH_SIZE = 16  # reduce if low on GPU mem

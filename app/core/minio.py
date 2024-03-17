@@ -87,6 +87,3 @@ class MinioLoader:
 
 
 minio_loader = MinioLoader(minio_bucket=config.MINIO_BUCKET)
-
-
-minio_loader.load_file("0d77b5c5-e0f0-458e-a88f-4080f5dc2772/Женя TextSumm (1).mp4", save_path="1.mp4")

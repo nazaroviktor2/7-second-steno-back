@@ -30,6 +30,8 @@ class Config(BaseSettings):
         "audio/mpeg": "mp3",
     }
 
+    HF_TOKEN: str
+
     MAX_SIZE: int = 3787631740
 
 
