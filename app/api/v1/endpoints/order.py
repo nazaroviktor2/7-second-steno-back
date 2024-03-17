@@ -43,7 +43,6 @@ async def get_order(order_id: str, user=Depends(get_current_user)):
     persons = ["Ваня В", "Кирилл", "Дмитрий"]
     if file:
         file = file[0]
-        logger.error(f"FILE = {file}")
         source = file["_source"]
         text = source.get("content")
         persons = source.get('persons')
