@@ -4,6 +4,7 @@ from app.api.v1.endpoints.auth import get_current_user
 from app.db.db_crud import get_order_by_id
 from app.db.models import OrderStatus
 from app.schemas.order_schemas import BaseOrder, OrderWithText
+from app.services.exceptions import handle_domain_error
 from app.services.use_case.index import get_file_by_id
 
 router = APIRouter()
@@ -14,9 +15,15 @@ router = APIRouter()
     status_code=status.HTTP_200_OK,
     response_model=BaseOrder,
 )
+@handle_domain_error
 async def get_order(order_id: str, user=Depends(get_current_user)):
     order = await get_order_by_id(order_id)
-    return BaseOrder.model_validate(order, from_attributes=True)
+    return BaseOrder(
+        order_id=order.id,
+        status=order.status,
+        preview=order.preview,
+        name=order.name
+    )
 
 
 @router.get(
