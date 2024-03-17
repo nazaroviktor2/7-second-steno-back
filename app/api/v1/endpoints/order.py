@@ -46,7 +46,7 @@ async def get_order(order_id: str, user=Depends(get_current_user)):
         logger.error(f"FILE = {file}")
         source = file["_source"]
         text = source.get("content")
-        persons = source.get(persons)
+        persons = source.get('persons')
         highlights = file.get("highlight")
         if highlights:
             highlights = highlights['content']
