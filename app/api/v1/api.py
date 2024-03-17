@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 
-from app.api.v1.endpoints import file, auth, user, order
+from app.api.v1.endpoints import file, auth, user, order, message
 
 api_router = APIRouter()
 api_router.include_router(file.router, prefix="/v1/file", tags=["File"])
