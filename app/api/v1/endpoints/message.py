@@ -42,7 +42,7 @@ async def get_user_orders(payload: MSGIn = Depends(), user=Depends(get_current_u
         res = []
         for summ in summary:
             if summ.get("name") != "All":
-                res.append(f"{summ.get("name", "Кто то")}: \n {summ.get("text", "")}")
+                res.append(f'{summ.get("name", "Кто то")}: \n {summ.get("text", "")}')
         return "\n".join(res)
 
     elif payload.message == "Кто присутствовал на встрече?":
